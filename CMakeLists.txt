@@ -1,4 +1,3 @@
-```cmake
 cmake_minimum_required(VERSION 3.21)
 
 project(HighGraphics VERSION 1.2.0)
@@ -36,4 +35,3 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 # Setup Geode mod
 setup_geode_mod(${PROJECT_NAME})
-```
