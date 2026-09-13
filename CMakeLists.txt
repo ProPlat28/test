@@ -1,37 +1,44 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(HighGraphics VERSION 1.2.0)
+project(HighGraphicsonAndroid VERSION 1.2.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# Find Geode SDK
+# Geode SDK
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR
-        "Unable to find Geode SDK! Please define GEODE_SDK environment variable."
+        "GEODE_SDK environment variable is not set."
     )
 endif()
 
-message(STATUS "Found Geode: $ENV{GEODE_SDK}")
+message(STATUS "Using Geode SDK: $ENV{GEODE_SDK}")
 
-# Add Geode SDK first
+# Load Geode SDK
 add_subdirectory(
     "$ENV{GEODE_SDK}"
-    "${CMAKE_CURRENT_BINARY_DIR}/geode"
+    "${CMAKE_BINARY_DIR}/geode"
 )
 
-# Source files
+# Sources
 file(GLOB_RECURSE SOURCES
-    src/*.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 # Mod library
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
-
-target_include_directories(${PROJECT_NAME} PRIVATE
-    include
+add_library(
+    ${PROJECT_NAME}
+    SHARED
+    ${SOURCES}
 )
 
-# Setup Geode mod
+# Headers
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
+
+# Geode configuration
 setup_geode_mod(${PROJECT_NAME})
